@@ -14,8 +14,8 @@ $app->get('/kelompok1', function () {
 	echo 'Hai dhnchrs';
 });
 
-$app->get('/kelompok2/:id', function ($id) {
-	echo 'Hai '.$id;
+$app->get('/kelompok3/{name}', function ($request, $response, $args) {
+    echo 'Hai ' . $args['name'];
 });
 
 $app->get('/kelompokForm', function () {
@@ -48,7 +48,7 @@ $app->post('/kelompokForm', function () {
 
 $container = $app->getContainer();
 $container['renderer'] = new PhpRenderer('./templates');
-$app->get('/home', function (Request $request, Response $response){
+$app->get('/home', function ($request, $response){
     return $this->renderer->render($response, '/vhome.php', array("nama"=>"Dhaniel","nim"=>"67201510"));
 });
 
@@ -57,26 +57,66 @@ $app->get('/home', function (Request $request, Response $response){
 function DBConnection(){
 	return new PDO('mysql:dbhost=localhost;dbname=db_mahasiswa', 'root', '');
 }
+
 //READ
-$app->get('/show', function()use($app){
-	$db = DBConnection();
-	$result = $db->query("select * from mahasiswa")->fetchAll();
-	echo json_encode($result);
+$app->get('/show', function ($request, $response, $args){
+	echo json_encode(DBConnection()->query("select * from mahasiswa")->fetchAll());
 });
-$app->get('/tabel', function (Request $request, Response $response){
+$app->get('/tabel', function ($request, $response){
     return $this->renderer->render($response, '/vtabel.php');
 });
+
 //DELETE
-$app->delete('/hapus/:nim', function($nim)use($app) {
-	echo DBConnection()->exec("delete from mahasiswa where nim = '$nim';");
+$app->delete('/hapus/{nim}', function ($request, $response, $args) {
+	DBConnection()->exec("delete from mahasiswa where nim = '".$args['nim']."';");
+	echo('Data berhasil dihapus !');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
 });
+$app->get('/hapus/{nim}', function ($request, $response, $args) {
+	DBConnection()->exec("delete from mahasiswa where nim = '".$args['nim']."';");
+	echo('Data berhasil dihapus !');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
+});
+$app->post('/hapus/{nim}', function ($request, $response, $args) {
+	DBConnection()->exec("delete from mahasiswa where nim = '".$args['nim']."';");
+	echo('Data berhasil dihapus !');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
+});
+
 //INSERT
-$app->post('/insert', function()use($app){
-	echo DBConnection()->exec("insert into mahasiswa values('".$app->request->post('nama', 'nim')."');");
+$app->post('/insert', function ($request, $response, $args) {
+	$nim = $request->getParam('nim');
+	$nama = $request->getParam('nama');
+	DBConnection()->exec("insert into mahasiswa values('".$nim."','".$nama."');");
+	echo('Data berhasil diinsert !');
+	echo('<br/><a href="http://slimframeworkcrud/forminsert">back</a>');
 });
+$app->get('/forminsert', function ($request, $response){
+    return $this->renderer->render($response, '/vinsert.php');
+});
+
 //UPDATE
-$app->put('/update/:nim',  function($nim)use($app){
-	echo DBConnection()->exec("update mahasiswa set nim = '".$app->request->post('nama')."' where nim = '$nim';");
+$app->put('/update/{nim}', function ($request, $response, $args) {
+	$nama = $request->getParam('nama');
+	DBConnection()->exec("update mahasiswa set nama = '".$nama."' where nim = '".$args['nim']."';");
+	echo('Data berhasil diupdate !');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
+});
+$app->get('/update/{nim}', function ($request, $response, $args) {
+	$nama = $request->getParam('nama');
+	DBConnection()->exec("update mahasiswa set nama = '".$nama."' where nim = '".$args['nim']."';");
+	echo('Data berhasil diupdate !');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
+});
+$app->post('/update/{nim}', function ($request, $response, $args) {
+	$nama = $request->getParam('nama');
+	DBConnection()->exec("update mahasiswa set nama = '".$nama."' where nim = '".$args['nim']."';");
+	echo('Data berhasil diupdate !');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
+});
+
+$app->get('/formupdate', function ($request, $response){
+    return $this->renderer->render($response, '/vupdate.php');
 });
 
 $app->run();
