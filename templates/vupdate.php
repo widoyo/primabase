@@ -8,13 +8,14 @@
 		<h1>Update Data Mahasiswa FTI UKSW</h1>
 		<?php
 			$nim =$_GET['nim'];
+			$nama =$_GET['nama'];
 		?>
 		<form id="form" method = "POST" action="http://slimframeworkcrud/update/<?php echo $nim ?>">
 			<table>
 				<tr>
 					<td>Nama</td>
 					<td>:</td>
-					<td><input type="text" name="nama"/></td>
+					<td><input type="text" name="nama" value="<?php echo $nama ?>"/></td>
 				</tr>
 				<tr>
 					<td></td>
