@@ -36,7 +36,7 @@
 				$("#mhs").append(row); 
 				row.append($("<td>" + rowData.nim + "</td>"));
 				row.append($("<td>" + rowData.nama + "</td>"));
-				row.append($("<td><a href='http://slimframeworkcrud/formupdate?nim="+rowData.nim+"'>Edit</a> ||<a href='http://slimFrameworkCRUD/hapus/"+rowData.nim+"'>Hapus</a></td>"));
+				row.append($("<td><a href='http://slimframeworkcrud/formupdate?nim="+rowData.nim+"&nama="+rowData.nama+"'>Edit</a> ||<a href='http://slimFrameworkCRUD/hapus/"+rowData.nim+"'>Hapus</a></td>"));
 			}
 		</script>
 	</body>
