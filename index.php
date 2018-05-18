@@ -89,7 +89,7 @@ $app->post('/insert', function ($request, $response, $args) {
 	$nama = $request->getParam('nama');
 	DBConnection()->exec("insert into mahasiswa values('".$nim."','".$nama."');");
 	echo('Data berhasil diinsert !');
-	echo('<br/><a href="http://slimframeworkcrud/forminsert">back</a>');
+	echo('<br/><a href="http://slimframeworkcrud/tabel">back</a>');
 });
 $app->get('/forminsert', function ($request, $response){
     return $this->renderer->render($response, '/vinsert.php');
