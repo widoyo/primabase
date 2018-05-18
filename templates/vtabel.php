@@ -13,6 +13,8 @@
 				<th>Action</th>
 			</thead>
 		</table>
+		<br/>
+		<a href="http://slimframeworkcrud/forminsert">Tambah Data</a>
 		<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 		<script type="text/javascript">
 			$.ajax({
